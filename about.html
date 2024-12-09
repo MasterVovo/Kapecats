@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KapeCats Coffee Shop</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f4f4f4;
+      color: #C8A2C8;
+      position: relative;
+      min-height: 100vh;
+      padding-bottom: 100px;
+    }
+
+    .navbar {
+      background-color: #fff;
+      box-shadow: 0 2px 10px #6e1e6e;
+    }
+
+    .navbar-brand img {
+      width: 100px;
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .navbar-nav .nav-link {
+      color: #C8A2C8;
+      font-weight: 600;
+    }
+
+    .navbar-nav .nav-link.active {
+      color: #C8A2C8;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #C8A2C8;
+    }
+
+    #learn-more {
+      background: url('coffeebg.jpg') no-repeat center center/cover;
+      padding: 120px 0;
+      text-align: center;
+      color: #6e1e6e;
+      min-height: 600px;
+    }
+
+    #learn-more h2 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    }
+
+    #learn-more p {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .about {
+      padding: 60px 0;
+      background-color: #C8A2C8;
+    }
+
+    .about .heading {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 40px;
+      color: #6e1e6e;
+    }
+
+    .about .heading span {
+      color: #333;
+    }
+
+    .about img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+
+    .about .row {
+      align-items: center;
+    }
+
+    .about h3 {
+      font-size: 2em;
+      margin-bottom: 15px;
+    }
+
+    .about p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #6e1e6e;
+    }
+
+    .menu {
+      padding: 60px 0;
+      background-color: #f9f9f9;
+    }
+
+    .menu .heading3 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 40px;
+      color: #6e1e6e;
+    }
+
+    .filter-buttons button {
+      background-color: #C8A2C8;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1em;
+      margin: 5px 10px;
+      cursor: pointer;
+      margin-bottom: 40px;
+
+      border-radius: 5px;
+
+      transition: background-color 0.3s;
+    }
+
+    .filter-buttons button:hover {
+      background-color: #7c2b92;
+    }
+
+    .menu .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+
+    .menu .col-md-4 {
+      flex: 1 1 calc(33.3333% - 20px);
+      margin-bottom: 30px;
+    }
+
+    .menu .card {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      background-color: white;
+      transition: transform 0.3s ease-in-out;
+      margin-bottom: 20px;
+    }
+
+    .menu .card:hover {
+      transform: translateY(-10px);
+    }
+
+    .menu .card h3 {
+      text-align: center;
+      margin: 15px 0;
+      font-size: 1.5em;
+      color: #C8A2C8;
+    }
+
+    .menu .card p {
+      text-align: center;
+      font-size: 1.1em;
+      margin-bottom: 15px;
+    }
+
+    .product h1 {
+      text-align: center;
+      color: #6e1e6e;
+      font-size: 2.5em;
+      margin-bottom: 40px;
+    }
+
+    .product h3 {
+      text-align: center;
+      color: #6e1e6e;
+      font-size: 1.5em;
+    }
+
+    .product .card h3 {
+      text-align: center;
+      color: #6e1e6e;
+    }
+
+    .product .card {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      background-color: white;
+      padding: 20px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .product .card:hover {
+      transform: translateY(-10px);
+    }
+
+    .product .card h6 {
+      text-align: center;
+      font-size: 1.5em;
+      color: #6e1e6e;
+      margin-bottom: 15px;
+    }
+
+    .product .card ul {
+      font-size: 1.1em;
+      color: #6e1e6e;
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .product .card ul li {
+      margin-bottom: 8px;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .close {
+      font-size: 30px;
+      color: #ffffff;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+
+    #gallery {
+      padding: 60px 0;
+      background-color: #C8A2C8;
+    }
+
+    #gallery h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 40px;
+      color: #C8A2C8;
+    }
+
+    #map {
+      width: 100%;
+      height: 450px;
+      margin-top: 20px;
+      background-color: #fff;
+    }
+
+
+    body {
+      position: relative;
+      min-height: 100vh;
+      padding-bottom: 100px;
+    }
+
+    #map iframe {
+      width: 100%;
+      height: 200%;
+      border: 0;
+      border-radius: 10px;
+    }
+
+
+    footer {
+      background-color: #C8A2C8;
+      color: #6c757d;
+      padding: 30px 0;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      margin-top: 30px;
+    }
+
+    footer .d-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    footer ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    footer ul li {
+      display: inline-block;
+    }
+
+    footer ul li a {
+      text-decoration: none;
+      color: #6c757d;
+      transition: color 0.3s ease;
+    }
+
+    footer ul li a:hover {
+      color: #6e1e6e;
+    }
+
+    @media (max-width: 768px) {
+      footer .d-flex {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      footer ul {
+        margin-top: 10px;
+      }
+
+      footer ul li {
+        margin: 0 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="all-content">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">
+        <img src="KapeCats LOgo.png" alt="Logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav ml-auto">
+          <a class="nav-item nav-link active" href="about.html">Home</a>
+          <a class="nav-item nav-link" href="index.html">Dashboard</a>
+          <a class="nav-item nav-link" href="login.html">Logout</a>
+        </div>
+      </div>
+    </nav>
+
+    <section id="learn-more">
+      <div class="container">
+        <h2>Learn More About Our Coffee and Culture</h2>
+        <p></b>At KapeCats, every cup tells a story of passion, dedication, and love for both coffee and cats. Dive
+          deeper into our world and discover what makes us special.</b></p>
+      </div>
+    </section>
+
+    <div class="about" id="about">
+      <div class="container">
+        <div class="heading">About <span>Us</span></div>
+        <div class="row">
+          <div class="col-md-6">
+            <img src="__.jpg" alt="bg" class="img-fluid" />
+          </div>
+          <div class="col-md-6">
+            <h3>What Makes Our Coffee Special?</h3>
+            <p> At KapeCats, we’re all about combining our love for coffee and cats into a cozy, welcoming experience.
+              Since our establishment in 2021, we’ve been serving up delightful drinks made with care and passion.
+
+              Our coffee is crafted from 100% Arabica Sagada beans, celebrated for their rich flavor and smooth aroma.
+              For our cold brew enthusiasts, we steep every batch for 20 hours to bring out the perfect balance of bold
+              and mellow notes. We also use a medium roast to ensure each cup highlights the natural sweetness and
+              nuances of the beans.
+
+              Whether you're here for a quick caffeine fix, to relax with friends, or to enjoy our cat-inspired vibe,
+              KapeCats promises a sip worth savoring. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="menu" id="menu">
+      <div class="container">
+        <div class="heading3 text-center">
+          <h1>Menu</h1>
+        </div>
+        <div class="filter-buttons text-center">
+          <button onclick="filterMenu('all')">All</button>
+          <button onclick="filterMenu('shake')">Shakes</button>
+          <button onclick="filterMenu('coffee')">Coffee</button>
+          <button onclick="filterMenu('latte')">Latte Based</button>
+          <button onclick="filterMenu('sparkling')">Sparkling Soda</button>
+          <button onclick="filterMenu('milktea')">Milk Tea</button>
+          <button onclick="filterMenu('snacks')">Snacks</button>
+        </div>
+
+        <div class="row menu-items">
+          <div class="col-md-4 menu-item shake">
+            <div class="card" onclick="showDetails('Mango Shake')">
+              <h3>Mango Shake</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item shake">
+            <div class="card" onclick="showDetails('Chocolate Shake')">
+              <h3>Chocolate Shake</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item shake">
+            <div class="card" onclick="showDetails('Strawberry Shake')">
+              <h3>Strawberry Shake</h3>
+            </div>
+          </div>
+
+          <div class="col-md-4 menu-item coffee">
+            <div class="card" onclick="showDetails('Americano')">
+              <h3>Americano</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item coffee">
+            <div class="card" onclick="showDetails('Espresso')">
+              <h3>Espresso</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item coffee">
+            <div class="card" onclick="showDetails('Brewed Coffee')">
+              <h3>Brewed Coffee</h3>
+            </div>
+          </div>
+
+          <div class="col-md-4 menu-item latte">
+            <div class="card" onclick="showDetails('Caramel Latte')">
+              <h3>Caramel Latte</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item latte">
+            <div class="card" onclick="showDetails('Spanish Latte')">
+              <h3>Spanish Latte</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item latte">
+            <div class="card" onclick="showDetails('Matcha Latte')">
+              <h3>Matcha Latte</h3>
+            </div>
+          </div>
+
+          <div class="col-md-4 menu-item sparkling">
+            <div class="card" onclick="showDetails('Green Apple')">
+              <h3>Green Apple</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item sparkling">
+            <div class="card" onclick="showDetails('Blue Lemonade')">
+              <h3>Blue Lemonade</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item sparkling">
+            <div class="card" onclick="showDetails('Blueberry')">
+              <h3>Blueberry</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item sparkling">
+            <div class="card" onclick="showDetails('Lychee')">
+              <h3>Lychee</h3>
+            </div>
+          </div>
+
+          <div class="col-md-4 menu-item milktea">
+            <div class="card" onclick="showDetails('Okinawa')">
+              <h3>Okinawa</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item milktea">
+            <div class="card" onclick="showDetails('Cookies n\' Cream')">
+              <h3>Cookies n' Cream</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item milktea">
+            <div class="card" onclick="showDetails('Matcha')">
+              <h3>Matcha</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item milktea">
+            <div class="card" onclick="showDetails('Wintermelon')">
+              <h3>Wintermelon</h3>
+            </div>
+          </div>
+
+          <div class="col-md-4 menu-item snacks">
+            <div class="card" onclick="showDetails('Hotdog on Stick')">
+              <h3>Hotdog on Stick</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item snacks">
+            <div class="card" onclick="showDetails('Hashbrown per piece')">
+              <h3>Hashbrown per piece</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item snacks">
+            <div class="card" onclick="showDetails('Egg & Cheese sandwich')">
+              <h3>Egg & Cheese sandwich</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item snacks">
+            <div class="card" onclick="showDetails('Fries')">
+              <h3>Fries</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item snacks">
+            <div class="card" onclick="showDetails('Nachos')">
+              <h3>Nachos</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item snacks">
+            <div class="card" onclick="showDetails('Hotdog on Bun')">
+              <h3>Hotdog on Bun</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item snacks">
+            <div class="card" onclick="showDetails('Ham & Cheese Sandwich')">
+              <h3>Ham & Cheese Sandwich</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item snacks">
+            <div class="card" onclick="showDetails('Bacon Sandwich')">
+              <h3>Bacon Sandwich</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item snacks">
+            <div class="card" onclick="showDetails('Bacon & Cheese/Egg Sandwich')">
+              <h3>Bacon & Cheese/Egg Sandwich</h3>
+            </div>
+          </div>
+          <div class="col-md-4 menu-item snacks">
+            <div class="card" onclick="showDetails('Bacon, Cheese, & Egg Sandwich')">
+              <h3>Bacon, Cheese, & Egg Sandwich</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      function filterMenu(category) {
+        const items = document.querySelectorAll('.menu-item');
+        items.forEach(item => {
+          if (category === 'all') {
+            item.style.display = 'block';
+          } else if (item.classList.contains(category)) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      }
+
+      filterMenu('all');
+    </script>
+
+
+
+    <section class="menu" id="menu">
+      <div class="container">
+        <div class="heading3 text-center">
+          <h1>Gallery</h1>
+        </div>
+        <div class="row" style="margin-top: 30px;">
+          <div class="col-md-4 py-3 py-md-0">
+            <div class="card">
+              <img src="choc_latte.jpg" alt="">
+            </div>
+          </div>
+          <div class="col-md-4 py-3 py-md-0">
+            <div class="card">
+              <img src="feat_biscoff.jpg" alt="">
+            </div>
+          </div>
+          <div class="col-md-4 py-3 py-md-0">
+            <div class="card">
+              <img src="spanish.jpg" alt="">
+            </div>
+          </div>
+          <div class="col-md-4 py-3 py-md-0">
+            <div class="card">
+              <img src="vanilla latte.jpg" alt="">
+            </div>
+          </div>
+
+
+          <section id="map" class="map-section" style="padding: 60px 0; background-color: #f9f9f9;">
+            <div class="container">
+              <h2 class="text-center" style="color: #6e1e6e; margin-bottom: 30px;">Find Us Here</h2>
+              <div class="row justify-content-center">
+                <div class="col-md-8">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15961.681143149448!2d120.9475857!3d14.3408248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d5c4d836e65d%3A0x15e10c77a06e96fb!2sKape+Cats!5e0!3m2!1sen!2sph!4v1702074534721!5m2!1sen!2sph"
+                    width="350" height="450" style="border:0;" allowfullscreen="" loading="lazy">
+                  </iframe>
+                  </iframe>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+          <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/footers/">
+
+
+          <script>
+            function filterMenu(category) {
+              const items = document.querySelectorAll('.menu-item');
+              items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                  item.style.display = 'block';
+                } else {
+                  item.style.display = 'none';
+                }
+              });
+            }
+
+
+            function showDetails(title, price) {
+              document.getElementById('menuModal').style.display = 'block';
+              document.getElementById('modalTitle').innerText = title;
+              document.getElementById('modalPrice').innerText = price;
+            }
+
+
+            function closeModal() {
+              document.getElementById('menuModal').style.display = 'none';
+            }
+          </script>
+
+
+          <footer>
+            <div class="container">
+              <div class="d-flex justify-content-between align-items-center">
+                <p>&copy; 2024 KapeCats Coffee Shop. All Rights Reserved.</p>
+                <ul class="social-icons">
+                  <li><a href="https://www.instagram.com/kapecatsph/" target="_blank"><i
+                        class="fab fa-instagram"></i></a></li>
+                  <li><a href="https://web.facebook.com/KapeCatsPH" target="_blank"><i class="fab fa-facebook"></i></a>
+                  </li>
+                  <li><a href="https://g.co/kgs/MiK13ou" target="_blank"><i class="fab fa-google"></i></a></li>
+                </ul>
+              </div>
+            </div>
+          </footer>
+
+
+</body>
+
+</html>

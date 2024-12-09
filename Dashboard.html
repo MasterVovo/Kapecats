@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Layout</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #C8A2C8;
+    }
+
+    .navbar {
+      background-color: #fff;
+      box-shadow: 0 2px 10px #6e1e6e;
+    }
+
+    .navbar-brand img {
+      width: 100px;
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .navbar-nav .nav-link {
+      color: #C8A2C8;
+      font-weight: 600;
+    }
+
+    .navbar-nav .nav-link.active {
+      color: #C8A2C8;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #C8A2C8;
+    }
+
+    .dashboard-container {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      grid-gap: 20px;
+      padding: 20px;
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 20px;
+    }
+
+    .card,
+    .chart,
+    .calendar,
+    .section {
+      background-color: #FFFFFF;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card {
+      text-align: center;
+    }
+
+    .card p {
+      margin: 10px 0;
+      font-size: 14px;
+      color: #6c757d;
+    }
+
+    .card .value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #6A0080;
+    }
+
+    .calendar h3,
+    .chart-title,
+    .section h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #6A0080;
+    }
+
+    .fc-toolbar-title,
+    .fc-col-header-cell-cushion,
+    .fc-daygrid-day-number {
+      color: #7A4579;
+    }
+
+    .chart {
+      position: relative;
+      height: 250px;
+      width: 100%;
+      padding: 0;
+    }
+
+    .edit-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 12px;
+      color: #6A0080;
+      cursor: pointer;
+    }
+
+    #bar-chart {
+      width: 90%;
+      height: 250px;
+      margin: 0 auto;
+    }
+
+    .calendar {
+      position: relative;
+      padding: 20px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+    }
+
+    .edit-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 12px;
+      color: #5D3B66;
+      cursor: pointer;
+    }
+
+    ul {
+      padding-left: 20px;
+      font-size: 14px;
+    }
+
+    ul div {
+      margin-bottom: 10px;
+    }
+
+    .section {
+      width: 100%;
+      flex-grow: 1;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .input-item {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    .btn-action {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .message {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .section-title {
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .todo-icons {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .todo-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .todo-item i {
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .todo-item .remove {
+      color: #6A0080;
+      margin-left: 10px;
+    }
+
+    .todo-item .edit {
+      color: #6A0080;
+      margin-left: 10px;
+    }
+
+    .todo-item .add {
+      color: green;
+      font-size: 24px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+      text-align: center;
+    }
+
+    .btn-action {
+      padding: 10px 20px;
+      background-color: #7A4579;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-action:hover {
+      background-color: #5D3B66;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+      <img src="KapeCats LOgo.png" alt="Logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav ml-auto">
+        <a class="nav-item nav-link" href="about.html">Home</a>
+        <a class="nav-item nav-link active" href="Dashboard.html">Dashboard</a>
+        <a class="nav-item nav-link" href="index.html">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+    <div class="main-content">
+      <div class="card">
+        <p>Best Seller</p>
+        <div class="value" id="product-count">Spanish Latte</div>
+      </div>
+      <div class="card">
+        <p>Orders</p>
+        <div class="value" id="order-count">83</div>
+      </div>
+      <div class="card">
+        <p>Sales</p>
+        <div class="value" id="sales-count">79</div>
+      </div>
+
+      <div class="chart">
+        <p class="chart-title">Purchase Orders</p>
+        <div id="area-chart" style="width: 100%;"></div>
+        <i class="fas fa-edit edit-icon" onclick="openEditModal('area')"></i>
+
+      </div>
+      <div class="chart">
+        <p class="chart-title">Sales Orders</p>
+        <div id="line-chart" style="width: 100%;"></div>
+        <i class="fas fa-edit edit-icon" onclick="openEditModal('line')"></i>
+
+      </div>
+      <div class="chart">
+        <p class="chart-title">Top Sales</p>
+        <div id="pie-chart" style="width: 100%;"></div>
+        <i class="fas fa-edit edit-icon" onclick="openEditModal('pie')"></i>
+
+      </div>
+    </div>
+
+    <div class="calendar">
+      <h3>Calendar</h3>
+      <div id="calendar"></div>
+    </div>
+    <div class="calendar">
+      <p class="chart-title">Best Products</p>
+      <div id="bar-chart"></div>
+      <i class="fas fa-edit edit-icon" onclick="openEditModal('bar')"></i>
+    </div>
+
+    <div class="calendar">
+      <h3>To Do</h3>
+      <div class="todo-icons">
+        <i class="fas fa-plus add" onclick="showAddModal()"></i> 
+      </div>
+      <ul id="todo-list">
+        <div class="todo-item">
+          <span>Update Menu</span>
+          <div>
+            <i class="fas fa-edit edit" onclick="showEditModal('Update Menu')"></i> 
+            <i class="fas fa-trash remove" onclick="deleteTask('Update Menu')"></i> 
+          </div>
+        </div>
+        <div class="todo-item">
+          <span>Check Inventory</span>
+          <div>
+            <i class="fas fa-edit edit" onclick="showEditModal('Check Inventory')"></i> 
+            <i class="fas fa-trash remove" onclick="deleteTask('Check Inventory')"></i> 
+          </div>
+        </div>
+      </ul>
+    </div>
+
+    <div class="modal" id="editChartModal">
+      <div class="modal-content">
+        <h3>Edit Chart Data</h3>
+        <label for="chartLabelsInput">Chart Labels (comma separated):</label>
+        <input type="text" id="chartLabelsInput" class="form-control" placeholder="Enter labels">
+
+        <label for="chartValuesInput">Chart Values (comma separated):</label>
+        <input type="text" id="chartValuesInput" class="form-control" placeholder="Enter values">
+
+        <button id="saveChartDataButton" class="btn-action" onclick="updateChartData()">Save</button>
+        <button onclick="closeModal()" class="btn-action">Cancel</button>
+      </div>
+    </div>
+
+    <div class="modal" id="taskModal">
+      <div class="modal-content">
+        <h3 id="modal-title">Add Task</h3>
+        <input type="text" id="taskInput" class="form-control" placeholder="Enter task">
+        <button onclick="saveTask()" class="btn-action">Save</button>
+        <button onclick="closeModal()" class="btn-action">Cancel</button>
+      </div>
+    </div>
+
+    <div class="section" style="width: 135%;">
+      <h2 class="section-title">Data Entry</h2>
+
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-item">
+            <label for="bestSeller">Enter Best Seller:</label>
+            <input type="text" id="bestSeller" class="form-control">
+          </div>
+        </div>
+        <button onclick="modifyBestSeller()" class="btn-action">Modify Best Seller</button>
+        <div id="bestSellerMessage" class="message"></div>
+      </div>
+
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-item">
+            <label for="Orders">Enter Orders:</label>
+            <input type="text" id="Orders" class="form-control">
+          </div>
+        </div>
+        <button onclick="modifyOrders()" class="btn-action">Modify Orders</button>
+        <div id="OrdersMessage" class="message"></div>
+      </div>
+
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-item">
+            <label for="Sales">Enter Sales:</label>
+            <input type="text" id="Sales" class="form-control">
+          </div>
+        </div>
+        <button onclick="modifySales()" class="btn-action">Modify Sales</button>
+        <div id="SalesMessage" class="message"></div>
+      </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.0/main.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+        });
+        calendar.render();
+      });
+
+      let editingTask = null;
+
+      window.onload = function () {
+        let savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        savedTasks.forEach(task => {
+          displayTask(task);
+        });
+      };
+
+      function showEditModal(task) {
+        editingTask = task;
+        document.getElementById('taskInput').value = task;
+        document.getElementById('modal-title').innerText = 'Edit Task';
+        document.getElementById('taskModal').style.display = 'flex';
+      }
+
+      function showAddModal() {
+        editingTask = null;
+        document.getElementById('taskInput').value = '';
+        document.getElementById('modal-title').innerText = 'Add Task';
+        document.getElementById('taskModal').style.display = 'flex';
+      }
+
+      function saveTask() {
+        let taskInput = document.getElementById('taskInput').value.trim();
+        if (taskInput) {
+          if (editingTask) {
+            editExistingTask(taskInput);
+          } else {
+            displayTask(taskInput);
+
+            let savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            savedTasks.push(taskInput);
+            localStorage.setItem('tasks', JSON.stringify(savedTasks));
+
+            showMessage('Task added successfully!');
+          }
+
+          closeModal();
+        } else {
+          showMessage('Please enter a valid task.');
+        }
+      }
+
+      function editExistingTask(taskInput) {
+        let todoList = document.getElementById('todo-list');
+        let tasks = todoList.getElementsByClassName('todo-item');
+        for (let taskItem of tasks) {
+          if (taskItem.querySelector('span').innerText === editingTask) {
+            taskItem.querySelector('span').innerText = taskInput;
+          }
+        }
+
+        let savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        savedTasks = savedTasks.map(task => (task === editingTask ? taskInput : task));
+        localStorage.setItem('tasks', JSON.stringify(savedTasks));
+
+        showMessage('Task updated successfully!');
+      }
+
+      function displayTask(task) {
+        let todoList = document.getElementById('todo-list');
+        let newTask = document.createElement('div');
+        newTask.classList.add('todo-item');
+        newTask.innerHTML = `<span>${task}</span>
+                      <div>
+                          <i class="fas fa-edit edit" onclick="showEditModal('${task}')"></i>
+                          <i class="fas fa-trash remove" onclick="deleteTask('${task}')"></i>
+                      </div>`;
+        todoList.appendChild(newTask);
+      }
+
+      function deleteTask(task) {
+        let todoList = document.getElementById('todo-list');
+        let tasks = todoList.getElementsByClassName('todo-item');
+        for (let taskItem of tasks) {
+          if (taskItem.querySelector('span').innerText === task) {
+            todoList.removeChild(taskItem);
+
+            let savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            savedTasks = savedTasks.filter(savedTask => savedTask !== task);
+            localStorage.setItem('tasks', JSON.stringify(savedTasks));
+
+            showMessage('Task deleted successfully!');
+            break;
+          }
+        }
+      }
+
+      function showMessage(message) {
+        let messageBox = document.getElementById('messageBox');
+        messageBox.innerText = message;
+        messageBox.style.display = 'block';
+
+        setTimeout(() => {
+          messageBox.style.display = 'none';
+        }, 2000);
+      }
+
+      function closeModal() {
+        document.getElementById('taskModal').style.display = 'none'; 
+      }
+
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const bestSeller = localStorage.getItem('bestSeller');
+        if (bestSeller) {
+          document.getElementById('product-count').textContent = bestSeller;
+        }
+      });
+
+      function modifyBestSeller() {
+        const newBestSeller = document.getElementById('bestSeller').value;
+        if (newBestSeller) {
+          document.getElementById('product-count').textContent = newBestSeller;
+          localStorage.setItem('bestSeller', newBestSeller);
+          document.getElementById('bestSellerMessage').textContent = "Best Seller updated successfully!";
+          document.getElementById('bestSellerMessage').style.color = "green";
+        } else {
+          document.getElementById('bestSellerMessage').textContent = "Please enter a Best Seller!";
+          document.getElementById('bestSellerMessage').style.color = "red"; 
+        }
+      }
+
+
+      document.addEventListener('DOMContentLoaded', function () {
+        let orders = localStorage.getItem('Orders');
+        if (!orders) {
+          orders = 0;
+          localStorage.setItem('Orders', orders);
+        }
+        document.getElementById('order-count').textContent = orders;
+      });
+
+      function modifyOrders() {
+        var orders = document.getElementById("Orders").value;
+        if (orders) {
+          localStorage.setItem('Orders', orders); 
+          document.getElementById("order-count").textContent = orders; 
+          document.getElementById("OrdersMessage").textContent = "Orders updated successfully!";
+          document.getElementById("OrdersMessage").style.color = "green";
+        } else {
+          document.getElementById("OrdersMessage").textContent = "Please enter a valid orders number.";
+          document.getElementById("OrdersMessage").style.color = "red";
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        let sales = localStorage.getItem('Sales');
+        if (!sales) {
+          sales = 0;
+          localStorage.setItem('Sales', sales);
+        }
+        document.getElementById('sales-count').textContent = sales;
+      });
+
+      function modifySales() {
+        var sales = document.getElementById("Sales").value;
+        if (sales) {
+          localStorage.setItem('Sales', sales);
+          document.getElementById("sales-count").textContent = sales;
+          document.getElementById("SalesMessage").textContent = "Sales updated successfully!";
+          document.getElementById("SalesMessage").style.color = "green";
+        } else {
+          document.getElementById("SalesMessage").textContent = "Please enter a valid sales number.";
+          document.getElementById("SalesMessage").style.color = "red";
+        }
+      }
+      let areaChart, lineChart, pieChart, barChart;
+
+      const savedData = {
+        area: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
+        line: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
+        pie: [44, 33, 23],
+        bar: [10, 15, 25, 30, 20, 26]
+      };
+
+      function initCharts() {
+
+        const savedChartData = localStorage.getItem('chartData');
+        if (savedChartData) {
+          Object.assign(savedData, JSON.parse(savedChartData));
+        }
+
+        areaChart = new ApexCharts(document.querySelector("#area-chart"), {
+          chart: { type: 'area' },
+          series: [{ name: 'Data', data: savedData.area }],
+          xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] },
+          colors: ['#7A4579']
+        });
+        areaChart.render();
+
+        lineChart = new ApexCharts(document.querySelector("#line-chart"), {
+          chart: { type: 'line' },
+          series: [{ name: 'Sales', data: savedData.line }],
+          xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] },
+          colors: ['#7A4579']
+        });
+        lineChart.render();
+
+        pieChart = new ApexCharts(document.querySelector("#pie-chart"), {
+          chart: { type: 'pie' },
+          series: savedData.pie,
+          labels: ['Choco Latte', 'Hot Mocha', 'Matcha'],
+          colors: ['#9E6FA5', '#814D8B', '#673B72']
+        });
+        pieChart.render();
+
+        barChart = new ApexCharts(document.querySelector("#bar-chart"), {
+          chart: { type: 'bar', height: 250, width: '100%' },
+          series: [{ name: 'Data', data: savedData.bar }],
+          xaxis: { categories: ['Shakes', 'Coffee', 'Milktea', 'Snacks', 'Sparkling', 'Latte'] },
+          colors: ['#5D3B66']
+        });
+        barChart.render();
+      }
+
+      initCharts();
+
+      function openEditModal(chartType) {
+        let chartData = getChartData(chartType);
+        let labelsInput = document.getElementById('chartLabelsInput');
+        let valuesInput = document.getElementById('chartValuesInput');
+
+        labelsInput.value = chartData.labels.join(', ');
+        valuesInput.value = chartData.values.join(', ');
+
+        document.getElementById('editChartModal').style.display = 'flex';
+
+        document.getElementById('editChartModal').dataset.chartType = chartType;
+      }
+
+      function getChartData(chartType) {
+        if (chartType === 'pie') {
+          return { labels: ['Choco Latte', 'Hot Mocha', 'Matcha'], values: savedData.pie };
+        } else if (chartType === 'bar') {
+          return { labels: ['Shakes', 'Coffee', 'Milktea', 'Snacks', 'Sparkling', 'Latte'], values: savedData.bar };
+        } else if (chartType === 'line') {
+          return { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], values: savedData.line };
+        } else if (chartType === 'area') {
+          return { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], values: savedData.area };
+        }
+      }
+      function updateChartData() {
+        const chartType = document.getElementById('editChartModal').dataset.chartType; // Get the chart type
+        const labelsInput = document.getElementById('chartLabelsInput').value.split(',').map(item => item.trim()); // Get labels
+        const valuesInput = document.getElementById('chartValuesInput').value.split(',').map(item => parseFloat(item.trim())); // Get values
+
+        if (labelsInput.length !== valuesInput.length) {
+          alert("Number of labels and values must match.");
+          return;
+        }
+
+        if (chartType === 'pie') {
+          savedData.pie = valuesInput;
+          pieChart.updateSeries(savedData.pie);
+        } else if (chartType === 'bar') {
+          savedData.bar = valuesInput;
+          barChart.updateSeries([{ name: 'Data', data: savedData.bar }]);
+        } else if (chartType === 'line') {
+          savedData.line = valuesInput;
+          lineChart.updateSeries([{ name: 'Sales', data: savedData.line }]);
+        } else if (chartType === 'area') {
+          savedData.area = valuesInput;
+          areaChart.updateSeries([{ name: 'Data', data: savedData.area }]);
+        }
+
+        localStorage.setItem('chartData', JSON.stringify(savedData));
+
+        closeModal();
+      }
+
+
+      function openEditModal(chartType) {
+        let chartData = getChartData(chartType); // Fetch the chart data (labels and values)
+        let labelsInput = document.getElementById('chartLabelsInput');
+        let valuesInput = document.getElementById('chartValuesInput');
+
+        labelsInput.value = chartData.labels.join(', ');
+        valuesInput.value = chartData.values.join(', ');
+
+        document.getElementById('editChartModal').style.display = 'flex';
+
+        document.getElementById('editChartModal').dataset.chartType = chartType;
+      }
+
+      function getChartData(chartType) {
+        if (chartType === 'pie') {
+          return { labels: ['Choco Latte', 'Hot Mocha', 'Matcha'], values: savedData.pie };
+        } else if (chartType === 'bar') {
+          return { labels: ['Shakes', 'Coffee', 'Milktea', 'Snacks', 'Sparkling', 'Latte'], values: savedData.bar };
+        } else if (chartType === 'line') {
+          return { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], values: savedData.line };
+        } else if (chartType === 'area') {
+          return { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], values: savedData.area };
+        }
+      }
+
+      function closeModal() {
+        document.getElementById('editChartModal').style.display = 'none';
+      }
+
+
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
